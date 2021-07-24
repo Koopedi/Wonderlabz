@@ -22,6 +22,8 @@ public class ConversionService {
      private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public boolean isNumeric ( String value){
         
+        System.out.println(value);
+        if(value == null) return false;
     String regex = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?";
 		
     Pattern p = Pattern.compile(regex);
@@ -88,6 +90,41 @@ public class ConversionService {
         }
        return  String.format("%.2f",kilometers)  + "  " + kmDescription; 
     }
+    
+    
+       @GET
+    @Path("/ktoc")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String convertKelvinToCelsius (@QueryParam("kelvin") String kelvin){
+     
+        
+        boolean isNumeric = isNumeric(kelvin);
+        
+        if(!isNumeric) return "Please enter numeric value";
+             LOGGER.info("Calling method convert Kelvin to Celsius: Kelvin value is : " + kelvin);
+           LOGGER.info("http://localhost:8080/WonderLabz/api/conversions/ktoc?kelvin=" + kelvin);
+       double  celsius =0;
+       celsius  = (Double.parseDouble(kelvin) - 273.15);
+       return  String.format("%.2f",celsius) + " Celsius" ; 
+    }   
+    
+    @GET
+    @Path("/ctok")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String convertCelsiusToKelvin (@QueryParam("celsius") String celsius){
+       
+       boolean isNumeric = isNumeric(celsius); 
+        if(!isNumeric) return "Please enter numeric value";
+        
+        LOGGER.info("Calling method convert Celsius to Kelvin: Celsius value is : " + celsius);
+           LOGGER.info("http://localhost:8080/WonderLabz/api/conversions/ctok?celsius=" + celsius);
+        
+       double kelvin  = (Double.parseDouble(celsius) + 273.15);
+       return String.format("%.2f",kelvin) +"  Kelvin";   
+    }
+    
+    
+    
         
     
 }
