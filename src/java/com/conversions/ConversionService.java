@@ -45,7 +45,7 @@ public class ConversionService {
         if(!isNumeric) return "Please enter numeric value";
         
         LOGGER.info("Calling method convert Kilometers to Miles: Kilometers value is : " + kilometer);
-        
+         LOGGER.info("http://localhost:8080/WonderLabz/api/conversions/ktom?km=" + kilometer);
         double kmValue = Double.parseDouble(kilometer);
         
         if(kmValue == 0.0)  return "Please enter kilometers value";
@@ -61,6 +61,33 @@ public class ConversionService {
        return  String.format("%.2f",mile) +" "+ mileDescription; 
     }
     
+  
     
+    @GET
+    @Path("/mtok")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String convertMilesToKM(@QueryParam("mile") String mile){
+     
+      boolean isNumeric = isNumeric(mile);
+        
+      if(!isNumeric) return "Please enter numeric value";  
+        LOGGER.info("Calling method convert Miles to Kilometers : Miles value is : " + mile);
+       LOGGER.info("http://localhost:8080/WonderLabz/api/conversions/mtok?mile=" + mile);
+      double mileValue = Double.parseDouble(mile);
+       
+      if(mileValue == 0.0)  return "Please enter mile value";
+        
+       double kilometers = 0;
+       kilometers = mileValue * 1.6;
+       String kmDescription;
+       
+        if(kilometers >=2){
+            kmDescription = "Kilometers";
+        }else{
+             kmDescription = "Kilometer";
+        }
+       return  String.format("%.2f",kilometers)  + "  " + kmDescription; 
+    }
+        
     
 }
